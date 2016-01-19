@@ -1,0 +1,19 @@
+<form action="/process" method="post" class='form'>
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" name="name" class="form-control">
+  </div>
+  <div class="form-group">
+    <div id="payment-form"></div>
+  </div>
+  <input type="submit" name="name" class='btn btn-lg btn-primary'>
+</form>
+
+<script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+<script>
+var clientToken = "<%= @client_token %>";
+
+braintree.setup(clientToken, "dropin", {
+  container: "payment-form"
+});
+</script>
