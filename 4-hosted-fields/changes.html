@@ -1,0 +1,124 @@
+# changes for hellofresh.co.uk
+
+<script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+
+
+<button onclick="loadBraintree()">load</button>
+<input type="hidden" name="payment_method_nonce" id="payment_method_nonce"/>
+<div id="paypal-container"></div>
+
+
+<div class="card-type">
+  <div class="col-sm-8 col-sm-offset-4">
+    <img id="card-type-image" src="https://www.proteinworld.com/skin/frontend/base/default/images/gene/braintree/card.png"></img>
+  </div>
+</div>
+<div class="form-group">
+  <label for="card-number" class='control-label col-sm-4'>Credit Card Number</label>
+  <div class="col-sm-8">
+    <div id="card-number" class="form-control"></div>
+  </div>
+</div>
+<div class="form-group">
+  <label for="expiration-date" class='control-label col-sm-4'>Expiry Date</label>
+  <div class="col-sm-8">
+    <div id="expiration-date" class="form-control"></div>
+  </div>
+</div>
+<div class="form-group">
+  <label for="cvv" class='control-label col-sm-4'>Card Security Code</label>
+  <div class="col-sm-8">
+    <div id="cvv" class="form-control"></div>
+  </div>
+</div>
+
+
+<script>
+function loadBraintree()
+{
+  var checkout;
+  var clientToken = "eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiI5N2ExYzcxNzczMGE5MTNkMDk0OGMxOTU0MmI3YWI5MzhhODE1MWM4MmRiYmYyZmRiMjA3NmM4ZGIzMDU1YTFlfGNyZWF0ZWRfYXQ9MjAxNS0xMC0yOFQyMjowMTo0Ni4xNjc5MDgxNjIrMDAwMFx1MDAyNm1lcmNoYW50X2lkPWd4ZGNyOGNkcXI3ZjVzbjhcdTAwMjZwdWJsaWNfa2V5PXRwcm12Z2Q2OTJxZ3M4YjUiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzL2d4ZGNyOGNkcXI3ZjVzbjgvY2xpZW50X2FwaS92MS9jb25maWd1cmF0aW9uIiwiY2hhbGxlbmdlcyI6WyJjdnYiLCJwb3N0YWxfY29kZSJdLCJlbnZpcm9ubWVudCI6InByb2R1Y3Rpb24iLCJjbGllbnRBcGlVcmwiOiJodHRwczovL2FwaS5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzL2d4ZGNyOGNkcXI3ZjVzbjgvY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5jb20iLCJhbmFseXRpY3MiOnsidXJsIjoiaHR0cHM6Ly9jbGllbnQtYW5hbHl0aWNzLmJyYWludHJlZWdhdGV3YXkuY29tIn0sInRocmVlRFNlY3VyZUVuYWJsZWQiOnRydWUsInRocmVlRFNlY3VyZSI6eyJsb29rdXBVcmwiOiJodHRwczovL2FwaS5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzL2d4ZGNyOGNkcXI3ZjVzbjgvdGhyZWVfZF9zZWN1cmUvbG9va3VwIn0sInBheXBhbEVuYWJsZWQiOnRydWUsInBheXBhbCI6eyJkaXNwbGF5TmFtZSI6IkRvdCBHZW1zIiwiY2xpZW50SWQiOiJBWld1bnhCcFZ3akVIbF8zZzNPa1AwSnZubnctNklHNTV3ZU0xa29OQ3FyVXhSYVRVTlpIR1JsMW54N2siLCJwcml2YWN5VXJsIjoiaHR0cDovL3d3dy5kb3RnZW1zLm5ldC9pbmRleC5waHA/cGFnZT1Qcml2YWN5IiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly93d3cuZG90Z2Vtcy5uZXQvaW5kZXgucGhwP3BhZ2U9VGVybXMiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOmZhbHNlLCJlbnZpcm9ubWVudE5vTmV0d29yayI6ZmFsc2UsImVudmlyb25tZW50IjoibGl2ZSIsInVudmV0dGVkTWVyY2hhbnQiOmZhbHNlLCJicmFpbnRyZWVDbGllbnRJZCI6IkFSS3JZUkRoM0FHWER6VzdzT18zYlNrcS1VMUM3SEdfdVdOQy16NTdMallTRE5VT1NhT3RJYTlxNlZwVyIsImJpbGxpbmdBZ3JlZW1lbnRzRW5hYmxlZCI6ZmFsc2UsIm1lcmNoYW50QWNjb3VudElkIjoiZG90Z2Vtc0dCUCIsImN1cnJlbmN5SXNvQ29kZSI6IkdCUCJ9LCJjb2luYmFzZUVuYWJsZWQiOmZhbHNlLCJtZXJjaGFudElkIjoiZ3hkY3I4Y2RxcjdmNXNuOCIsInZlbm1vIjoib2ZmIn0="
+
+  braintree.setup(clientToken, "custom", {
+    id: "checkoutForm",
+    hostedFields: {
+      styles: {
+        // Style all elements
+        "input": {
+          "font-size": "14px",
+          "color": "#3A3A3A",
+          "font-family": "monospace"
+        },
+        // Styling element state
+        ":focus": {
+          "color": "black"
+        },
+        ".valid": {
+          "color": "green"
+        },
+        ".invalid": {
+          "color": "red"
+        },
+        // Media queries
+        // Note that these apply to the iframe, not the root window.
+        "@media screen and (max-width: 700px)": {
+          "input": {
+            "font-size": "14pt"
+          }
+        }
+      },
+
+      number: {
+        selector: "#card-number"
+      },
+      cvv: {
+        selector: "#cvv"
+      },
+      expirationDate: {
+        selector: "#expiration-date"
+      },
+      onFieldEvent: function (event) {
+          if (event.type === "fieldStateChange") {
+          // Handle a change in validation or card type
+
+          if (event.card) {
+            if (event.card.type == "visa") {
+              document.getElementById("card-type-image").src = "https://www.proteinworld.com/skin/frontend/base/default/images/gene/braintree/VI.png";
+            }
+            else if (event.card.type == "master-card") {
+              document.getElementById("card-type-image").src = "https://www.proteinworld.com/skin/frontend/base/default/images/gene/braintree/MC.png";
+            }
+            else if (event.card.type == "american-express") {
+              document.getElementById("card-type-image").src = "https://www.proteinworld.com/skin/frontend/base/default/images/gene/braintree/AE.png";
+            }
+            else {
+              document.getElementById("card-type-image").src = "https://www.proteinworld.com/skin/frontend/base/default/images/gene/braintree/card.png";
+            }
+          }
+        }
+      }
+    },
+    onReady: function (integration) {
+      checkout = integration;
+    },
+    paypal: {
+      container: "paypal-container",
+      paymentMethodNonceInputField: "payment_method_nonce",
+      singleUse: true,
+      currency: "GBP",
+      amount: 1.00,
+      enableShippingAddress: 'true',
+      onPaymentMethodReceived: function (obj) {
+        alert(obj.type);
+        alert(obj.nonce);
+        alert(Object.getOwnPropertyNames(obj.details));
+        alert(obj.details.shippingAddress.recipientName);
+        alert(obj.details.shippingAddress.streetAddress);
+        alert(obj.details.shippingAddress.locality);
+        alert(obj.details.shippingAddress.postalCode);
+        alert(obj.details.payerId);
+      }
+    }
+  });
+}
+</script>
